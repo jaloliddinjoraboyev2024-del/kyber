@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>CyberShield | Kiberxavfsizlik Test Platformasi</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
+    }
+
+    body {
+      background: #0b0f0e;
+      color: #e0f2e9;
+      min-height: 100vh;
+      padding: 16px;
+      background-image: radial-gradient(circle at 20% 30%, #0f3a2e30 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, #1a4a3a20 0%, transparent 50%);
+    }
+
+    .app-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #1e3a2f;
+    }
+
+    .logo h1 {
+      font-weight: 600;
+      font-size: 1.9rem;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #9ff2d0, #3dd68c);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 8px #1e8a5e60;
+    }
+
+    .logo span {
+      font-size: 0.9rem;
+      color: #7aa392;
+      display: block;
+      margin-top: 2px;
+    }
+
+    .stats-summary {
+      display: flex;
+      gap: 24px;
+      background: #0f1f1a;
+      padding: 12px 24px;
+      border-radius: 48px;
+      border: 1px solid #1f4a3a;
+      box-shadow: 0 4px 12px #00000030;
+      backdrop-filter: blur(4px);
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #7aa392;
+    }
+
+    .stat-value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #b1f0d6;
+      line-height: 1.3;
+    }
+
+    .reset-btn {
+      background: none;
+      border: 1px solid #2d5a48;
+      color: #c2ded1;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      backdrop-filter: blur(4px);
+    }
+
+    .reset-btn:hover {
+      background: #1e3a2f;
+      border-color: #3dd68c;
+      color: #d2f5e6;
+      box-shadow: 0 0 10px #1e8a5e40;
+    }
+
+    /* Diagnoz panel */
+    .diagnosis-panel {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .strength, .weakness {
+      flex: 1 1 200px;
+      background: #0e1e18;
+      border-radius: 20px;
+      padding: 18px 20px;
+      border-left: 6px solid;
+      box-shadow: 0 8px 18px #00000025;
+      backdrop-filter: blur(2px);
+    }
+
+    .strength {
+      border-left-color: #2ecc71;
+    }
+
+    .weakness {
+      border-left-color: #e74c3c;
+    }
+
+    .diag-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .diag-content {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #d4efe4;
+    }
+
+    .diag-sub {
+      font-size: 0.85rem;
+      color: #80ab9a;
+      margin-top: 6px;
+    }
+
+    /* Kartochkalar grid */
+    .sections-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 22px;
+      margin-top: 10px;
+    }
+
+    .section-card {
+      background: #0e1e17;
+      border-radius: 28px;
+      padding: 22px 20px;
+      border: 1px solid #1d3a2c;
+      box-shadow: 0 12px 24px -8px #00000060;
+      transition: transform 0.2s, border-color 0.2s;
+      backdrop-filter: blur(4px);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .section-card:hover {
+      border-color: #2f9b73;
+      transform: translateY(-3px);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .card-header h3 {
+      font-weight: 600;
+      font-size: 1.35rem;
+      color: #c7f0df;
+    }
+
+    .status-badge {
+      font-size: 0.7rem;
+      padding: 4px 10px;
+      border-radius: 40px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .status-completed { background: #1a5e40; color: #d0f5e2; }
+    .status-started { background: #8b7a2c; color: #fef6d5; }
+    .status-new { background: #1e2e28; color: #9ab3a8; }
+
+    .progress-container {
+      margin: 12px 0 8px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: #95bbac;
+      margin-bottom: 4px;
+    }
+
+    .progress-bar-bg {
+      height: 10px;
+      background: #152b22;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 10px;
+      background: linear-gradient(90deg, #2ecc71, #1e9f6e);
+      width: 0%;
+      border-radius: 20px;
+      box-shadow: 0 0 8px #27ae6080;
+      transition: width 0.3s ease;
+    }
+
+    .last-result {
+      margin: 14px 0 16px;
+      font-size: 1rem;
+      color: #bbdfd1;
+    }
+
+    .btn {
+      background: #132e23;
+      border: 1px solid #2d7a5a;
+      color: #e1f3ea;
+      padding: 12px 16px;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+      margin-top: auto;
+      box-shadow: 0 2px 6px #00000030;
+    }
+
+    .btn-primary {
+      background: #1b7a52;
+      border-color: #2ecc71;
+      color: white;
+      box-shadow: 0 0 12px #1e8a5e60;
+    }
+
+    .btn-primary:hover {
+      background: #269f68;
+      box-shadow: 0 0 18px #2ecc7180;
+    }
+
+    .btn:hover {
+      background: #1f4636;
+    }
+
+    /* Test view */
+    .test-container {
+      max-width: 760px;
+      margin: 20px auto;
+    }
+
+    .quiz-card {
+      background: #0f1f19;
+      border-radius: 36px;
+      padding: 30px 24px;
+      border: 1px solid #215a44;
+      box-shadow: 0 18px 30px -8px #00000080;
+    }
+
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      color: #9fd9c2;
+    }
+
+    .question-text {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 28px;
+      line-height: 1.4;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin: 24px 0;
+    }
+
+    .option-btn {
+      background: #112a20;
+      border: 1.5px solid #1f4635;
+      color: #e2f0e9;
+      padding: 18px 20px;
+      border-radius: 24px;
+      font-size: 1.05rem;
+      text-align: left;
+      cursor: pointer;
+      transition: 0.15s;
+      font-weight: 500;
+      box-shadow: inset 0 1px 3px #00000040;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      background: #1b4536;
+      border-color: #2e9b70;
+    }
+
+    .option-correct {
+      background: #0f4f32 !important;
+      border-color: #2ecc71 !important;
+      color: white;
+      box-shadow: 0 0 12px #1e9f6e;
+    }
+
+    .option-wrong {
+      background: #3d1e1e !important;
+      border-color: #e74c3c !important;
+      color: #ffcfcf;
+    }
+
+    .feedback {
+      margin: 16px 0 24px;
+      min-height: 40px;
+      font-weight: 500;
+    }
+
+    .correct-feedback { color: #2ecc71; }
+    .wrong-feedback { color: #e74c3c; }
+
+    .next-btn {
+      background: #1b7a52;
+      border: none;
+      color: white;
+      padding: 16px 24px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      width: 100%;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 6px 14px #0e3322;
+    }
+
+    .next-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .result-screen {
+      text-align: center;
+      padding: 30px 10px;
+    }
+
+    .result-percent {
+      font-size: 4rem;
+      font-weight: 800;
+      background: linear-gradient(145deg, #a3f0cf, #3dd68c);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin: 20px 0;
+    }
+
+    .back-btn {
+      margin-top: 28px;
+      background: #162e24;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .flex-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    /* mobil */
+    @media (max-width: 600px) {
+      body { padding: 10px; }
+      .logo h1 { font-size: 1.5rem; }
+      .stats-summary { padding: 10px 16px; gap: 12px; }
+      .stat-value { font-size: 1.3rem; }
+      .section-card { padding: 18px; }
+      .question-text { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <header>
+    <div class="logo">
+      <h1>⚡ CYBERSHIELD</h1>
+      <span>kiberxavfsizlik bilimlar platformasi</span>
+    </div>
+    <div class="flex-row">
+      <div class="stats-summary">
+        <div class="stat-item">
+          <div class="stat-label">bo'limlar</div>
+          <div class="stat-value" id="global-completed-count">0/6</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">o'rtacha</div>
+          <div class="stat-value" id="global-avg-percent">0%</div>
+        </div>
+      </div>
+      <button class="reset-btn" id="reset-all-btn">↻ reset</button>
+    </div>
+  </header>
+
+  <!-- Diagnoz -->
+  <div class="diagnosis-panel">
+    <div class="strength">
+      <div class="diag-title"><span>🛡️ Kuchli tomon</span></div>
+      <div class="diag-content" id="strength-text">—</div>
+      <div class="diag-sub" id="strength-detail"></div>
+    </div>
+    <div class="weakness">
+      <div class="diag-title"><span>⚠️ Zaif tomon</span></div>
+      <div class="diag-content" id="weakness-text">—</div>
+      <div class="diag-sub" id="weakness-detail"></div>
+    </div>
+  </div>
+
+  <!-- Asosiy sahifa / kartochkalar -->
+  <div id="home-view">
+    <div class="sections-grid" id="sections-container"></div>
+  </div>
+
+  <!-- Test view -->
+  <div id="test-view" class="hidden">
+    <div class="test-container">
+      <div class="quiz-card">
+        <div class="quiz-header">
+          <span id="test-section-title">Tarmoq xavfsizligi</span>
+          <span id="question-counter">1/20</span>
+        </div>
+        <div id="question-text" class="question-text">Savol yuklanmoqda...</div>
+        <div class="options" id="options-container"></div>
+        <div id="feedback-area" class="feedback"></div>
+        <button class="next-btn" id="next-question-btn" disabled>Keyingi savol →</button>
+        <button class="back-btn btn" id="exit-test-btn" style="margin-top:16px;">⏴ Bosh sahifa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    "use strict";
+
+    // ---------- KIBERXAVFSIZLIK SAVOLLAR BAZASI ----------
+    const QUESTION_BANK = {
+      network: [
+        { q: "OSI modelida nechta qatlam mavjud?", opts: ["5", "7", "4", "6"], ans: "7" },
+        { q: "TCP protokoli qaysi qatlamda ishlaydi?", opts: ["Tarmoq", "Transport", "Seans", "Ma'lumot uzatish"], ans: "Transport" },
+        { q: "Port 443 qaysi protokol uchun standart?", opts: ["HTTP", "HTTPS", "FTP", "SSH"], ans: "HTTPS" },
+        { q: "Ping qaysi protokoldan foydalanadi?", opts: ["TCP", "UDP", "ICMP", "ARP"], ans: "ICMP" },
+        { q: "MAC manzil necha bit?", opts: ["32", "48", "64", "128"], ans: "48" },
+        { q: "Qaysi qurilma OSI 3-qatlamda ishlaydi?", opts: ["Switch", "Router", "Hub", "Bridge"], ans: "Router" },
+        { q: "VLAN nima uchun ishlatiladi?", opts: ["Tezlikni oshirish", "Tarmoqni segmentlash", "Xavfsiz devor", "VPN"], ans: "Tarmoqni segmentlash" },
+        { q: "NAT qanday vazifa bajaradi?", opts: ["IP manzillarni o'zgartirish", "Shifrlash", "Autentifikatsiya", "Portlarni bloklash"], ans: "IP manzillarni o'zgartirish" },
+        { q: "ARP protokoli nima qiladi?", opts: ["IP -> MAC", "MAC -> IP", "DNS so'rov", "Routing"], ans: "IP -> MAC" },
+        { q: "Qaysi port DNS uchun?", opts: ["53", "80", "25", "110"], ans: "53" },
+        { q: "Firewall asosiy vazifasi?", opts: ["Traffic filtr", "Shifrlash", "VPN", "Load balancing"], ans: "Traffic filtr" },
+        { q: "IDS nima?", opts: ["Intrusion Detection", "Internet Data", "Internal Defense", "None"], ans: "Intrusion Detection" },
+        { q: "Subnet mask 255.255.255.0 nechta host?", opts: ["254", "256", "128", "512"], ans: "254" },
+        { q: "DHCP nima beradi?", opts: ["IP manzil", "DNS nomi", "MAC", "Port"], ans: "IP manzil" },
+        { q: "Qaysi simsiz shifrlash zaif?", opts: ["WPA3", "WPA2", "WEP", "AES"], ans: "WEP" },
+        { q: "VPN qisqartmasi?", opts: ["Virtual Private Network", "Very Private Node", "Visual Protocol", "Virtual Protocol"], ans: "Virtual Private Network" },
+        { q: "TCP 3-way handshake bosqichlari?", opts: ["SYN, ACK, FIN", "SYN, SYN-ACK, ACK", "ACK, SYN, RST", "SYN, RST, ACK"], ans: "SYN, SYN-ACK, ACK" },
+        { q: "Qaysi xizmat 22-port?", opts: ["Telnet", "SSH", "FTP", "SMTP"], ans: "SSH" },
+        { q: "BGP protokoli qayerda ishlatiladi?", opts: ["LAN", "Internet routing", "Switch", "Wireless"], ans: "Internet routing" },
+        { q: "IPv6 manzil uzunligi?", opts: ["32 bit", "64 bit", "128 bit", "256 bit"], ans: "128 bit" }
+      ],
+      appsec: [
+        { q: "SQL injection qanday oldi olinadi?", opts: ["Parametrlangan so'rov", "HTML encoding", "Firewall", "HTTPS"], ans: "Parametrlangan so'rov" },
+        { q: "XSS qisqartmasi?", opts: ["Cross Site Scripting", "XML Secure Socket", "X Secure System", "Cross Site Security"], ans: "Cross Site Scripting" },
+        { q: "CSRF token nima?", opts: ["Soxta so'rovdan himoya", "Shifrlash kaliti", "Sessiya ID", "Parol"], ans: "Soxta so'rovdan himoya" },
+        { q: "OWASP Top 10 birinchi xavf 2021?", opts: ["Broken Access Control", "Injection", "XSS", "Misconfiguration"], ans: "Broken Access Control" },
+        { q: "Xavfsiz cookie atributi?", opts: ["HttpOnly", "Secure", "SameSite", "Hammasi"], ans: "Hammasi" },
+        { q: "Sertifikat pinning nima?", opts: ["Sertifikatni qattiq bog'lash", "PIN kod", "Shifrlash", "Hash"], ans: "Sertifikatni qattiq bog'lash" },
+        { q: "HSTS nima?", opts: ["HTTP Strict Transport", "Host Secure", "Hash Security", "HTTP Secure"], ans: "HTTP Strict Transport" },
+        { q: "CSP nima?", opts: ["Content Security Policy", "Cross Site Protection", "Client Side", "Cookie Security"], ans: "Content Security Policy" },
+        { q: "Directory traversal oldini olish?", opts: ["Input validatsiya", "Firewall", "Shifrlash", "Rate limiting"], ans: "Input validatsiya" },
+        { q: "XXE nima?", opts: ["XML External Entity", "XSS Extended", "Cross XML", "External Entity"], ans: "XML External Entity" },
+        { q: "Sessiya fiksatsiyasidan himoya?", opts: ["Login da sessiya yangilash", "Cookie umrini uzaytirish", "HTTPS", "Token"], ans: "Login da sessiya yangilash" },
+        { q: "SRI nima?", opts: ["Subresource Integrity", "Secure Remote", "Script Integrity", "Resource Security"], ans: "Subresource Integrity" },
+        { q: "Deserialization hujumi?", opts: ["Ishonchsiz ma'lumot", "Buffer overflow", "SQL", "XSS"], ans: "Ishonchsiz ma'lumot" },
+        { q: "Clickjacking himoya?", opts: ["X-Frame-Options", "CORS", "CSRF", "CSP"], ans: "X-Frame-Options" },
+        { q: "API rate limiting?", opts: ["DDoS oldi", "Autentifikatsiya", "Shifrlash", "Caching"], ans: "DDoS oldi" },
+        { q: "JWT tarkibi?", opts: ["Header.Payload.Signature", "Json Web Token", "Java Web Token", "JSON Token"], ans: "Header.Payload.Signature" },
+        { q: "OAuth 2.0 nima?", opts: ["Avtorizatsiya protokoli", "Autentifikatsiya", "Shifrlash", "Token"], ans: "Avtorizatsiya protokoli" },
+        { q: "Buffer overflow himoya?", opts: ["ASLR, DEP", "Firewall", "Antivirus", "Sandbox"], ans: "ASLR, DEP" },
+        { q: "Same-Origin Policy?", opts: ["Domenlararo cheklov", "XSS oldi", "CSRF", "CORS"], ans: "Domenlararo cheklov" },
+        { q: "Input sanitizatsiya?", opts: ["XSS, injection", "Tezlik", "Shifrlash", "Encoding"], ans: "XSS, injection" }
+      ],
+      crypto: [
+        { q: "AES blok uzunligi?", opts: ["64 bit", "128 bit", "256 bit", "512 bit"], ans: "128 bit" },
+        { q: "RSA nima asosida?", opts: ["Elliptik egri", "Katta son faktorizatsiyasi", "Diskret log", "Xeshlash"], ans: "Katta son faktorizatsiyasi" },
+        { q: "SHA-256 qaysi tur?", opts: ["Xeshlash", "Shifrlash", "Imzo", "Kodlash"], ans: "Xeshlash" },
+        { q: "Simmetrik shifrlash?", opts: ["AES", "RSA", "ECC", "Diffie-Hellman"], ans: "AES" },
+        { q: "Diffie-Hellman nima uchun?", opts: ["Kalit almashish", "Shifrlash", "Imzo", "Autentifikatsiya"], ans: "Kalit almashish" },
+        { q: "Tuz (salt) nima?", opts: ["Xeshlashda qo'shimcha", "Shifr kaliti", "Token", "Parol"], ans: "Xeshlashda qo'shimcha" },
+        { q: "PKI nima?", opts: ["Public Key Infrastructure", "Private Key", "Public Key", "Key Exchange"], ans: "Public Key Infrastructure" },
+        { q: "Raqamli imzo tekshirish?", opts: ["Ochiq kalit", "Maxfiy kalit", "Simmetrik", "Hash"], ans: "Ochiq kalit" },
+        { q: "HMAC nima?", opts: ["Hash-based MAC", "HTTP MAC", "Hash Message", "MAC Address"], ans: "Hash-based MAC" },
+        { q: "TLS 1.3 qo'llab quvvatlaydi?", opts: ["Perfect Forward Secrecy", "RSA almashinuvi", "MD5", "RC4"], ans: "Perfect Forward Secrecy" },
+        { q: "Elliptik egri kripto afzalligi?", opts: ["Qisqa kalit", "Tez", "Xavfsiz", "Hammasi"], ans: "Qisqa kalit" },
+        { q: "Caesar shifri?", opts: ["O'rnini almashtirish", "Transpozitsiya", "Xeshlash", "Blokli"], ans: "O'rnini almashtirish" },
+        { q: "PBKDF2 nima?", opts: ["Kalit hosil qilish", "Shifrlash", "Hash", "Tuz"], ans: "Kalit hosil qilish" },
+        { q: "Ochiq kalit kripto?", opts: ["Asimmetrik", "Simmetrik", "Gibrid", "Hash"], ans: "Asimmetrik" },
+        { q: "PGP ishlatadi?", opts: ["Simmetrik+Asimmetrik", "Faqat AES", "Faqat RSA", "3DES"], ans: "Simmetrik+Asimmetrik" },
+        { q: "Entropiya?", opts: ["Tasodifiylik", "Xavfsizlik", "Shifrlash", "Kalit"], ans: "Tasodifiylik" },
+        { q: "Zero-knowledge proof?", opts: ["Bilimni oshkor qilmaslik", "Shifrlash", "Hash", "Imzo"], ans: "Bilimni oshkor qilmaslik" },
+        { q: "Kvantga chidamli kripto?", opts: ["Post-quantum", "AES", "RSA", "ECC"], ans: "Post-quantum" },
+        { q: "Blockchain xeshi?", opts: ["SHA-256", "MD5", "SHA-1", "RIPEMD"], ans: "SHA-256" },
+        { q: "One-time pad sharti?", opts: ["Kalit uzunligi >= matn", "Takrorlanmaslik", "Tasodifiy", "Hammasi"], ans: "Kalit uzunligi >= matn" }
+      ],
+      social: [
+        { q: "Phishing nima?", opts: ["Soxta login", "Zararli dastur", "DDoS", "Spam"], ans: "Soxta login" },
+        { q: "Vishing?", opts: ["Ovozli fishing", "Video fishing", "Visual fishing", "Virtual fishing"], ans: "Ovozli fishing" },
+        { q: "Pretexting?", opts: ["Soxta bahona", "Password", "Pre-login", "Text"], ans: "Soxta bahona" },
+        { q: "Tailgating?", opts: ["Ruxsatsiz kirish", "Quyruq", "Kuzatish", "Tailing"], ans: "Ruxsatsiz kirish" },
+        { q: "Quid pro quo?", opts: ["Xizmat evaziga ma'lumot", "Sovg'a", "Pul", "Almashish"], ans: "Xizmat evaziga ma'lumot" },
+        { q: "MFA nima?", opts: ["Ko'p faktorli autentifikatsiya", "Mail Filter", "Multi-Factor Access", "Mobile Auth"], ans: "Ko'p faktorli autentifikatsiya" },
+        { q: "Smishing?", opts: ["SMS fishing", "Spam", "Social fishing", "Smart fishing"], ans: "SMS fishing" },
+        { q: "Baiting?", opts: ["Jismoniy tuzoq", "Email", "USB", "Link"], ans: "Jismoniy tuzoq" },
+        { q: "Shoulder surfing?", opts: ["Yelkadan kuzatish", "Hujum", "Kuzatuv", "Shoulder"], ans: "Yelkadan kuzatish" },
+        { q: "Dumpster diving?", opts: ["Axlat qidirish", "Dalil", "Ma'lumot", "Diving"], ans: "Axlat qidirish" },
+        { q: "Watering hole?", opts: ["Saytga hujum", "Suv", "Tarmoq", "Hole"], ans: "Saytga hujum" },
+        { q: "Spear phishing?", opts: ["Maqsadli fishing", "Ommaviy", "Spear", "Target"], ans: "Maqsadli fishing" },
+        { q: "Whaling?", opts: ["Yuqori martabali shaxsga", "Oddiy", "Whale", "CEO"], ans: "Yuqori martabali shaxsga" },
+        { q: "Inson omili eng zaif?", opts: ["Ha", "Yo'q", "Ba'zan", "Tizim"], ans: "Ha" },
+        { q: "Parol gigienasi?", opts: ["Kuchli parol", "Oddiy", "Takroriy", "Qisqa"], ans: "Kuchli parol" },
+        { q: "2FA bypass mumkinmi?", opts: ["Ha, fishing bilan", "Yo'q", "Sim orqali", "Hardware"], ans: "Ha, fishing bilan" },
+        { q: "USB tashlab ketish hujumi?", opts: ["Baiting", "Malware", "Phishing", "Dropping"], ans: "Baiting" },
+        { q: "Ijtimoiy muhandislik psixologiyasi?", opts: ["Ishonch", "Shoshilinch", "Qo'rquv", "Hammasi"], ans: "Hammasi" },
+        { q: "Xavfsizlik treningi?", opts: ["Muhim", "Keraksiz", "Vaqtinchalik", "Foydasiz"], ans: "Muhim" },
+        { q: "Ransomware tarqalishi?", opts: ["Email fishing", "USB", "SMS", "Qo'ng'iroq"], ans: "Email fishing" }
+      ],
+      compliance: [
+        { q: "GDPR nima?", opts: ["Ma'lumot himoyasi", "Sog'liq", "Moliyaviy", "Ta'lim"], ans: "Ma'lumot himoyasi" },
+        { q: "ISO 27001?", opts: ["Axborot xavfsizligi", "Sifat", "Atrof-muhit", "Sog'liq"], ans: "Axborot xavfsizligi" },
+        { q: "PCI DSS?", opts: ["Karta ma'lumotlari", "Sog'liq", "Ta'lim", "Bank"], ans: "Karta ma'lumotlari" },
+        { q: "HIPAA?", opts: ["Sog'liqni saqlash", "Moliyaviy", "Ta'lim", "Hukumat"], ans: "Sog'liqni saqlash" },
+        { q: "NIST CSF?", opts: ["Kiberxavfsizlik ramkasi", "Shifr", "Standart", "Qonun"], ans: "Kiberxavfsizlik ramkasi" },
+        { q: "CIA triadasi?", opts: ["Maxfiylik, yaxlitlik, mavjudlik", "Shifr", "Integrity", "Confidentiality"], ans: "Maxfiylik, yaxlitlik, mavjudlik" },
+        { q: "Data breach notification?", opts: ["72 soat (GDPR)", "30 kun", "7 kun", "24 soat"], ans: "72 soat (GDPR)" },
+        { q: "Risk assessment?", opts: ["Xavf tahlili", "Penetratsiya", "Audit", "Scan"], ans: "Xavf tahlili" },
+        { q: "SOC 2?", opts: ["Xizmat tashkilotlari", "Mahsulot", "Dastur", "Tarmoq"], ans: "Xizmat tashkilotlari" },
+        { q: "Zero Trust?", opts: ["Hech kimga ishonma", "Perimetr", "VPN", "Firewall"], ans: "Hech kimga ishonma" },
+        { q: "DLP?", opts: ["Ma'lumot yo'qotish oldi", "VPN", "IPS", "IDS"], ans: "Ma'lumot yo'qotish oldi" },
+        { q: "FISMA?", opts: ["Federal axborot xavfsizligi", "Xususiy", "Shtat", "Global"], ans: "Federal axborot xavfsizligi" },
+        { q: "SWIFT CSP?", opts: ["Moliyaviy xabarlar", "Email", "Web", "API"], ans: "Moliyaviy xabarlar" },
+        { q: "Audit loglar?", opts: ["Tekshirish izi", "Parol", "Fayl", "Trafik"], ans: "Tekshirish izi" },
+        { q: "Privacy by design?", opts: ["Loyihada maxfiylik", "Shifr", "GDPR", "CCPA"], ans: "Loyihada maxfiylik" },
+        { q: "PIA?", opts: ["Privacy Impact Assessment", "Pen test", "Audit", "Risk"], ans: "Privacy Impact Assessment" },
+        { q: "SOX?", opts: ["Moliyaviy hisobot", "Sog'liq", "Xavfsizlik", "GDPR"], ans: "Moliyaviy hisobot" },
+        { q: "eDiscovery?", opts: ["Elektron dalillar", "Xavfsizlik", "Shifrlash", "Disk"], ans: "Elektron dalillar" },
+        { q: "Data sovereignty?", opts: ["Ma'lumot qonuni", "Shifrlash", "GDPR", "Privacy"], ans: "Ma'lumot qonuni" },
+        { q: "CCPA?", opts: ["Kaliforniya iste'molchi maxfiyligi", "EU", "Global", "Asia"], ans: "Kaliforniya iste'molchi maxfiyligi" }
+      ],
+      attacks: [
+        { q: "DDoS nima?", opts: ["Tarqatilgan xizmatni rad etish", "Virus", "Malware", "Phishing"], ans: "Tarqatilgan xizmatni rad etish" },
+        { q: "MitM?", opts: ["O'rtadagi odam", "DDoS", "Malware", "Spoofing"], ans: "O'rtadagi odam" },
+        { q: "Botnet?", opts: ["Zombi tarmog'i", "Antivirus", "Firewall", "Router"], ans: "Zombi tarmog'i" },
+        { q: "Zero-day?", opts: ["Noma'lum zaiflik", "Eski", "Yangi", "Patch"], ans: "Noma'lum zaiflik" },
+        { q: "Ransomware?", opts: ["To'lov dasturi", "Spyware", "Adware", "Worm"], ans: "To'lov dasturi" },
+        { q: "Keylogger?", opts: ["Klaviatura kuzatuvchi", "Fayl", "Tarmoq", "Screen"], ans: "Klaviatura kuzatuvchi" },
+        { q: "Rootkit?", opts: ["Yashirin kirish", "Virus", "Worm", "Trojan"], ans: "Yashirin kirish" },
+        { q: "Brute force?", opts: ["Parol sinash", "Shifr buzish", "Hash", "Token"], ans: "Parol sinash" },
+        { q: "Rainbow table?", opts: ["Xesh buzish", "Shifrlash", "Parol", "Salt"], ans: "Xesh buzish" },
+        { q: "ARP spoofing?", opts: ["MITM", "DDoS", "Spoofing", "Poisoning"], ans: "MITM" },
+        { q: "DNS poisoning?", opts: ["Soxta DNS", "Routing", "Spoofing", "Cache"], ans: "Soxta DNS" },
+        { q: "Session hijacking?", opts: ["Sessiyani o'g'irlash", "DDoS", "XSS", "CSRF"], ans: "Sessiyani o'g'irlash" },
+        { q: "Buffer overflow?", opts: ["Xotira toshishi", "SQL", "XSS", "Stack"], ans: "Xotira toshishi" },
+        { q: "Privilege escalation?", opts: ["Huquq oshirish", "Login", "Admin", "Root"], ans: "Huquq oshirish" },
+        { q: "Pivot attack?", opts: ["Ichki tarmoqqa o'tish", "DDoS", "Lateral", "Movement"], ans: "Ichki tarmoqqa o'tish" },
+        { q: "Watering hole?", opts: ["Saytga hujum", "Fishing", "Drive-by", "Download"], ans: "Saytga hujum" },
+        { q: "Supply chain?", opts: ["Ta'minot zanjiri", "DDoS", "Third-party", "Vendor"], ans: "Ta'minot zanjiri" },
+        { q: "Living off the land?", opts: ["Tizim vositalaridan foydalanish", "Malware", "Fileless", "Script"], ans: "Tizim vositalaridan foydalanish" },
+        { q: "Pass-the-hash?", opts: ["Xesh bilan autentifikatsiya", "Parol", "Token", "Ticket"], ans: "Xesh bilan autentifikatsiya" },
+        { q: "Rogue AP?", opts: ["Soxta simsiz nuqta", "Router", "Switch", "Bridge"], ans: "Soxta simsiz nuqta" }
+      ]
+    };
+
+    const SECTIONS = [
+      { id: 'network', name: '🌐 Tarmoq xavfsizligi', key: 'network' },
+      { id: 'appsec', name: '📱 Dasturiy xavfsizlik', key: 'appsec' },
+      { id: 'crypto', name: '🔐 Kriptografiya', key: 'crypto' },
+      { id: 'social', name: '👥 Inson omili', key: 'social' },
+      { id: 'compliance', name: '📋 Huquqiy asoslar', key: 'compliance' },
+      { id: 'attacks', name: '⚔️ Hujum va himoya', key: 'attacks' }
+    ];
+
+    const STORAGE_KEY = 'cyber_test_progress_v4';
+    let progressData = {};
+
+    // UI elementlar
+    const homeView = document.getElementById('home-view');
+    const testView = document.getElementById('test-view');
+    const sectionsContainer = document.getElementById('sections-container');
+    const testSectionTitle = document.getElementById('test-section-title');
+    const questionText = document.getElementById('question-text');
+    const optionsDiv = document.getElementById('options-container');
+    const feedbackDiv = document.getElementById('feedback-area');
+    const nextBtn = document.getElementById('next-question-btn');
+    const exitTestBtn = document.getElementById('exit-test-btn');
+    const questionCounter = document.getElementById('question-counter');
+    const globalCompletedSpan = document.getElementById('global-completed-count');
+    const globalAvgSpan = document.getElementById('global-avg-percent');
+    const strengthText = document.getElementById('strength-text');
+    const weaknessText = document.getElementById('weakness-text');
+    const strengthDetail = document.getElementById('strength-detail');
+    const weaknessDetail = document.getElementById('weakness-detail');
+
+    let currentSectionId = null;
+    let currentQuestions = [];
+    let currentIndex = 0;
+    let userAnswers = [];
+    let userSelectedIndices = [];
+    let answerLock = false;
+    let testFinished = false;
+
+    // localStorage
+    function loadProgress() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try { 
+          progressData = JSON.parse(saved); 
+        } catch(e) { 
+          initEmptyProgress(); 
+        }
+      } else {
+        initEmptyProgress();
+      }
+      
+      SECTIONS.forEach(s => {
+        if (!progressData[s.id]) {
+          initSectionProgress(s.id);
+        }
+      });
+      
+      saveProgress();
+    }
+
+    function initEmptyProgress() {
+      progressData = {};
+      SECTIONS.forEach(s => { initSectionProgress(s.id); });
+    }
+
+    function initSectionProgress(sectionId) {
+      progressData[sectionId] = {
+        completed: false,
+        attempts: 0,
+        bestScore: 0,
+        lastScore: 0,
+        progressPercent: 0,
+        currentIndex: 0,
+        savedAnswers: [],
+        savedSelectedIndices: [],
+        shuffleSeed: Date.now() + Math.random() * 10000
+      };
+    }
+
+    function saveProgress() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(progressData));
+    }
+
+    function resetAllProgress() {
+      initEmptyProgress();
+      saveProgress();
+      renderHome();
+      updateDiagnosis();
+      updateGlobalStats();
+    }
+
+    function calculateSectionProgress(sectionId) {
+      const data = progressData[sectionId];
+      const totalQuestions = QUESTION_BANK[SECTIONS.find(s => s.id === sectionId).key].length;
+      if (data.completed) return 100;
+      if (data.savedAnswers && data.savedAnswers.length > 0) {
+        return Math.round((data.savedAnswers.length / totalQuestions) * 100);
+      }
+      return 0;
+    }
+
+    function updateSectionProgress(sectionId, index, answers, selectedIndices) {
+      const data = progressData[sectionId];
+      const section = SECTIONS.find(s => s.id === sectionId);
+      const totalQuestions = QUESTION_BANK[section.key].length;
+      
+      data.currentIndex = index;
+      data.savedAnswers = [...answers];
+      data.savedSelectedIndices = [...selectedIndices];
+      data.progressPercent = Math.round((answers.length / totalQuestions) * 100);
+      
+      saveProgress();
+    }
+
+    function updateSectionAfterTest(sectionId, scorePercent) {
+      const data = progressData[sectionId];
+      data.attempts++;
+      data.lastScore = scorePercent;
+      data.bestScore = Math.max(data.bestScore, scorePercent);
+      data.completed = true;
+      data.progressPercent = 100;
+      data.currentIndex = 0;
+      data.savedAnswers = [];
+      data.savedSelectedIndices = [];
+      saveProgress();
+    }
+
+    function resetSectionProgress(sectionId) {
+      const data = progressData[sectionId];
+      data.completed = false;
+      data.currentIndex = 0;
+      data.savedAnswers = [];
+      data.savedSelectedIndices = [];
+      data.progressPercent = 0;
+      data.shuffleSeed = Date.now() + Math.random() * 10000;
+      saveProgress();
+    }
+
+    function updateDiagnosis() {
+      let bestSection = null, worstSection = null;
+      let bestScore = -1, worstScore = 101;
+      
+      SECTIONS.forEach(s => {
+        const data = progressData[s.id];
+        const sc = data.bestScore || 0;
+        if (data.completed || data.attempts > 0) {
+          if (sc > bestScore) { bestScore = sc; bestSection = s; }
+          if (sc < worstScore) { worstScore = sc; worstSection = s; }
+        }
+      });
+      
+      if (bestSection) {
+        strengthText.innerText = bestSection.name;
+        strengthDetail.innerText = `${bestScore}% eng yaxshi natija`;
+      } else { 
+        strengthText.innerText = '—'; 
+        strengthDetail.innerText = 'Testlarni boshlang'; 
+      }
+      
+      if (worstSection) {
+        weaknessText.innerText = worstSection.name;
+        weaknessDetail.innerText = `${worstScore}% past ko'rsatkich`;
+      } else { 
+        weaknessText.innerText = '—'; 
+        weaknessDetail.innerText = ''; 
+      }
+    }
+
+    function updateGlobalStats() {
+      const totalSections = SECTIONS.length;
+      const completed = SECTIONS.filter(s => progressData[s.id].completed).length;
+      let sumScores = 0, countScores = 0;
+      
+      SECTIONS.forEach(s => { 
+        if(progressData[s.id].completed) { 
+          sumScores += progressData[s.id].bestScore; 
+          countScores++; 
+        }
+      });
+      
+      const avg = countScores ? Math.round(sumScores / countScores) : 0;
+      globalCompletedSpan.innerText = `${completed}/${totalSections}`;
+      globalAvgSpan.innerText = `${avg}%`;
+    }
+
+    function renderHome() {
+      let html = '';
+      SECTIONS.forEach(section => {
+        const data = progressData[section.id];
+        const totalQ = QUESTION_BANK[section.key].length;
+        const prog = calculateSectionProgress(section.id);
+        const lastResult = data.lastScore ? `${data.lastScore}%` : '—';
+        
+        let statusClass = 'status-new', statusText = 'Boshlanmagan';
+        if (data.completed) { 
+          statusClass = 'status-completed'; 
+          statusText = 'Tugatilgan'; 
+        } else if (prog > 0) { 
+          statusClass = 'status-started'; 
+          statusText = `${prog}% bajarilgan`; 
+        }
+        
+        const answeredCount = data.savedAnswers ? data.savedAnswers.length : 0;
+        
+        html += `<div class="section-card">
+          <div class="card-header">
+            <h3>${section.name}</h3>
+            <span class="status-badge ${statusClass}">${statusText}</span>
+          </div>
+          <div class="progress-container">
+            <div class="progress-label">
+              <span>Progress ${answeredCount}/${totalQ}</span>
+              <span>${prog}%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" style="width:${prog}%"></div>
+            </div>
+          </div>
+          <div class="last-result">
+            ${data.completed ? `✓ Yakunlangan: ${data.lastScore}%` : 
+              (prog > 0 ? `📊 ${answeredCount}/${totalQ} savol` : '✨ Yangi test')}
+          </div>
+          <button class="btn ${data.completed ? '' : 'btn-primary'}" data-section="${section.id}">
+            ${data.completed ? '🔄 Qayta boshlash' : (prog > 0 ? '▶ Davom etish' : '🚀 Testni boshlash')}
+          </button>
+        </div>`;
+      });
+      sectionsContainer.innerHTML = html;
+      
+      document.querySelectorAll('[data-section]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const sectionId = e.currentTarget.dataset.section;
+          const data = progressData[sectionId];
+          
+          if (data.completed) {
+            if (confirm('Bu testni qaytadan boshlashni xohlaysizmi?')) {
+              resetSectionProgress(sectionId);
+              startTest(sectionId);
+            }
+          } else {
+            startTest(sectionId);
+          }
+        });
+      });
+      
+      updateGlobalStats();
+      updateDiagnosis();
+    }
+
+    function seededRandom(seed) {
+      return function() {
+        seed = (seed * 9301 + 49297) % 233280;
+        return seed / 233280;
+      };
+    }
+
+    function prepareAllQuestions(sectionId) {
+      const section = SECTIONS.find(s => s.id === sectionId);
+      const bankKey = section.key;
+      const rawQuestions = QUESTION_BANK[bankKey];
+      
+      const seed = progressData[sectionId].shuffleSeed;
+      let rng = seededRandom(seed);
+      
+      return rawQuestions.map(q => {
+        const optsWithIndex = q.opts.map((opt, idx) => ({ text: opt, originalIndex: idx }));
+        
+        for (let i = optsWithIndex.length - 1; i > 0; i--) {
+          const j = Math.floor(rng() * (i + 1));
+          [optsWithIndex[i], optsWithIndex[j]] = [optsWithIndex[j], optsWithIndex[i]];
+        }
+        
+        const newOpts = optsWithIndex.map(item => item.text);
+        const newCorrectIndex = optsWithIndex.findIndex(item => item.text === q.ans);
+        
+        return {
+          q: q.q,
+          opts: newOpts,
+          ans: newCorrectIndex,
+          correctText: q.ans
+        };
+      });
+    }
+
+    function startTest(sectionId) {
+      const section = SECTIONS.find(s => s.id === sectionId);
+      currentSectionId = sectionId;
+      testSectionTitle.innerText = section.name;
+      
+      currentQuestions = prepareAllQuestions(sectionId);
+      
+      const data = progressData[sectionId];
+      
+      if (!data.savedAnswers || data.savedAnswers.length === 0) {
+        currentIndex = 0;
+        userAnswers = [];
+        userSelectedIndices = [];
+      } else {
+        currentIndex = data.currentIndex || 0;
+        userAnswers = [...data.savedAnswers];
+        userSelectedIndices = [...(data.savedSelectedIndices || [])];
+        
+        if (userAnswers.length >= currentQuestions.length) {
+          finishTest();
+          return;
+        }
+      }
+      
+      answerLock = false;
+      testFinished = false;
+      
+      homeView.classList.add('hidden');
+      testView.classList.remove('hidden');
+      nextBtn.style.display = 'block';
+      
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      if (currentIndex >= currentQuestions.length) {
+        finishTest();
+        return;
+      }
+      
+      const q = currentQuestions[currentIndex];
+      questionText.innerText = q.q;
+      questionCounter.innerText = `${currentIndex + 1}/${currentQuestions.length}`;
+      
+      let optsHtml = '';
+      q.opts.forEach((opt, idx) => {
+        optsHtml += `<button class="option-btn" data-opt-index="${idx}">${opt}</button>`;
+      });
+      optionsDiv.innerHTML = optsHtml;
+      feedbackDiv.innerHTML = '';
+      nextBtn.disabled = true;
+      answerLock = false;
+      
+      if (userAnswers[currentIndex] !== undefined) {
+        const wasCorrect = userAnswers[currentIndex];
+        const selectedIdx = userSelectedIndices[currentIndex];
+        const allOpts = document.querySelectorAll('.option-btn');
+        
+        allOpts.forEach((btn, idx) => {
+          btn.disabled = true;
+          if (idx === q.ans) {
+            btn.classList.add('option-correct');
+          } else if (idx === selectedIdx && !wasCorrect) {
+            btn.classList.add('option-wrong');
+          }
+        });
+        
+        if (wasCorrect) {
+          feedbackDiv.innerHTML = `<span class="correct-feedback">✓ To'g'ri!</span>`;
+        } else {
+          feedbackDiv.innerHTML = `<span class="wrong-feedback">✗ Noto'g'ri. To'g'ri javob: ${q.correctText}</span>`;
+        }
+        
+        answerLock = true;
+        nextBtn.disabled = false;
+      }
+      
+      document.querySelectorAll('.option-btn').forEach(btn => {
+        btn.addEventListener('click', onOptionClick);
+      });
+    }
+
+    function onOptionClick(e) {
+      if (answerLock) return;
+      
+      const selectedBtn = e.currentTarget;
+      const selectedIdx = parseInt(selectedBtn.dataset.optIndex);
+      const q = currentQuestions[currentIndex];
+      const isCorrect = (selectedIdx === q.ans);
+      
+      userAnswers[currentIndex] = isCorrect;
+      userSelectedIndices[currentIndex] = selectedIdx;
+      
+      answerLock = true;
+      
+      const allOpts = document.querySelectorAll('.option-btn');
+      allOpts.forEach((btn, idx) => {
+        btn.disabled = true;
+        if (idx === q.ans) btn.classList.add('option-correct');
+        else if (idx === selectedIdx && !isCorrect) btn.classList.add('option-wrong');
+      });
+      
+      if (isCorrect) {
+        feedbackDiv.innerHTML = `<span class="correct-feedback">✓ To'g'ri!</span>`;
+      } else {
+        feedbackDiv.innerHTML = `<span class="wrong-feedback">✗ Noto'g'ri. To'g'ri javob: ${q.correctText}</span>`;
+      }
+      
+      updateSectionProgress(currentSectionId, currentIndex, userAnswers, userSelectedIndices);
+      
+      nextBtn.disabled = false;
+    }
+
+    function nextQuestion() {
+      if (!answerLock && userAnswers[currentIndex] === undefined) return;
+      
+      if (currentIndex + 1 < currentQuestions.length) {
+        currentIndex++;
+        renderQuestion();
+      } else {
+        finishTest();
+      }
+    }
+
+    function finishTest() {
+      testFinished = true;
+      const correctCount = userAnswers.filter(v => v).length;
+      const percent = Math.round((correctCount / currentQuestions.length) * 100);
+      
+      updateSectionAfterTest(currentSectionId, percent);
+      
+      optionsDiv.innerHTML = '';
+      questionText.innerHTML = `Test yakunlandi!`;
+      feedbackDiv.innerHTML = '';
+      questionCounter.innerText = `${currentQuestions.length}/${currentQuestions.length}`;
+      
+      const resultDiv = document.createElement('div');
+      resultDiv.className = 'result-screen';
+      resultDiv.innerHTML = `
+        <div class="result-percent">${percent}%</div>
+        <div style="font-size:1.2rem">Siz ${correctCount}/${currentQuestions.length} to'g'ri javob berdingiz</div>
+        <div style="margin-top:12px; color: #7aa392;">🎯 Eng yaxshi: ${progressData[currentSectionId].bestScore}%</div>
+      `;
+      
+      const optionsParent = optionsDiv.parentNode;
+      optionsParent.insertBefore(resultDiv, optionsDiv);
+      optionsDiv.remove();
+      nextBtn.style.display = 'none';
+      
+      renderHome();
+      updateDiagnosis();
+      updateGlobalStats();
+    }
+
+    function returnHome() {
+      if (!testFinished && currentSectionId) {
+        updateSectionProgress(currentSectionId, currentIndex, userAnswers, userSelectedIndices);
+      }
+      
+      testView.classList.add('hidden');
+      homeView.classList.remove('hidden');
+      nextBtn.style.display = 'block';
+      
+      const existingResult = document.querySelector('.result-screen');
+      if (existingResult) existingResult.remove();
+      
+      renderHome();
+    }
+
+    // Event listeners
+    nextBtn.addEventListener('click', nextQuestion);
+    exitTestBtn.addEventListener('click', returnHome);
+    
+    document.getElementById('reset-all-btn').addEventListener('click', () => {
+      if (confirm('Barcha progress o\'chirilsinmi? Bu amal qaytarib bo\'lmaydi.')) {
+        resetAllProgress();
+      }
+    });
+
+    // Initialize
+    loadProgress();
+    renderHome();
+    updateDiagnosis();
+    updateGlobalStats();
+  })();
+</script>
+</body>
+</html>
