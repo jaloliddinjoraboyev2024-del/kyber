@@ -2,7 +2,7 @@ import telebot
 from telebot import types
 import os
 
-TOKEN = "8272068901:AAHRki2EznKH-8VS4jGEaxgqG9SzcmtZTA0"
+TOKEN = "8272068901:AAEmlUWxVO-PZkEzc1qJ52FuqFIgpIPPMic"
 WEB_APP_URL = "https://github.com/jaloliddinjoraboyev2024-del/kyber" # GitHub Pages manzili
 
 bot = telebot.TeleBot(TOKEN)
